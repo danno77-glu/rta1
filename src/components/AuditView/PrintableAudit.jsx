@@ -221,82 +221,101 @@ const PrintableAudit = ({ audit, damageRecords, onClose, auditorDetails }) => {
 
     processTemplate();
   }, [selectedTemplate, audit, damageRecords, settings, auditorDetails]);
+    
+  const handleGeneratePdf = async () => {
+    if (!processedContent || !audit) return;
 
-    const handleGeneratePdf = async () => {
-        if (!processedContent || !audit) return;
+    setPdfLoading(true);
+    setPdfError(null);
+    setDownloadMessage(''); // Clear any previous message
 
-        setPdfLoading(true);
-        setPdfError(null);
-        setDownloadMessage(''); // Clear any previous message
+    const date = new Date(audit.audit_date);
+    const formattedDate = `${date.getFullYear().toString().slice(-2)}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}`;
+    const filename = `${formattedDate}-${audit.company_name.replace(/[^a-zA-Z0-9]/g, '')}.pdf`;
 
-        const date = new Date(audit.audit_date);
-        const formattedDate = `${date.getFullYear().toString().slice(-2)}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}`;
-        const filename = `${formattedDate}-${audit.company_name.replace(/[^a-zA-Z0-9]/g, '')}.pdf`;
+    // Define CSS styles for pagination and page numbering
+    const css = `
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+    body {
+        counter-reset: page;
+    }
+    .page-content {
+        counter-increment: page;
+        position: relative; /* Ensure footer is positioned relative to this */
+        min-height: 257mm; /* Slightly less than A4 height minus margins */
+        padding-bottom: 20mm; /* Space for the footer */
+        box-sizing: border-box;
+        padding-top: 40px; /* Add padding-top for the header */
 
-        // Define CSS styles for pagination and page numbering
-        const css = `
-        @page {
-            size: A4;
-            margin: 15mm;
-        }
-        body {
-            counter-reset: page;
-        }
-        .page-content {
-            counter-increment: page;
-            position: relative; /* Ensure footer is positioned relative to this */
-            min-height: 277mm; /* Slightly less than A4 height minus margins */
-            padding-bottom: 20mm; /* Space for the footer */
-            box-sizing: border-box;
-        }
-        .page-footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-size: 12px;
-        }
-        .page-footer::after {
-            content: "Page " counter(page);
-        }
-        .damage-record {
-            page-break-inside: avoid;
-        }
-        .cover-page{
-            page-break-after: always;
-        }
-        `;
+    }
+    .page-footer {
+        position: absolute;
+        bottom: 0;
+        left: 20mm;
+        right: 20mm;
+        text-align: center;
+        font-size: 12px;
+        border-top: 1px solid #ccc; /* Add a line above the footer */
+        padding-top: 5mm;
+    }
+    .page-footer::after {
+        content: "Page " counter(page);
+    }
+      .page-header {
+        position: absolute;
+        top: 0;
+        left: 20mm; /* Match page-content padding */
+        right: 20mm; /* Match page-content padding */
+        text-align: center;
+        font-size: 12px;
+        padding-bottom: 5mm; /* Space below the header */
+        border-bottom: 1px solid #ccc;
+    }
+    .damage-record {
+        page-break-inside: avoid;
+    }
+    .cover-page{
+        page-break-after: always;
+    }
+    `;
 
-        // Inject the CSS and wrap the content for page numbering
-        const styledContent = `
+      // Create header and footer content
+      const headerContent = `<div class="page-header">Rack Audit Report - ${audit.reference_number}</div>`;
+      const footerContent = `<div class="page-footer"></div>`;
+
+      // Combine header, processed content, and footer
+      const fullContent = `
         <style>${css}</style>
+        ${selectedTemplate.content.includes('cover-page') ? '' : headerContent}
         <div class="page-content">${processedContent}</div>
-        <div class="page-footer"></div>
-        `;
+        ${footerContent}
+      `;
 
 
-        const opt = {
-            margin: [15, 15],
-            filename: filename,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, logging: false },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
-            pagebreak: { mode: 'avoid-all' }
-        };
-
-        try {
-            // Directly use html2pdf().save() with the HTML string
-            await html2pdf().set(opt).from(styledContent).save();
-            setDownloadMessage('Your download should start automatically. If it is blocked, please check your browser settings.');
-
-        } catch (error) {
-            console.error('Error generating PDF:', error);
-            setPdfError('Failed to generate PDF. Please try again.');
-        } finally {
-            setPdfLoading(false);
-        }
+    const opt = {
+      margin: [15, 15],
+      filename: filename,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, logging: false },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
+      pagebreak: { mode: 'avoid-all' }
     };
+
+    try {
+      // Directly use html2pdf().save() with the HTML string
+      await html2pdf().set(opt).from(fullContent).save(); // Pass the HTML string!
+      setDownloadMessage('Your download should start automatically. If it is blocked, please check your browser settings.');
+
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      setPdfError('Failed to generate PDF. Please try again.');
+    } finally {
+      setPdfLoading(false);
+    }
+  };
 
 
   const handleExportWord = async () => {
@@ -403,7 +422,7 @@ const PrintableAudit = ({ audit, damageRecords, onClose, auditorDetails }) => {
         const link = document.createElement('a');
         link.href = base64data; // Use the data URL
         link.download = filename;
-        link.style.display = 'none'; // Hide the link
+        link.style.display: 'none'; // Hide the link
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
