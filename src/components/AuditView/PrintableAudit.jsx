@@ -306,7 +306,7 @@ const PrintableAudit = ({ audit, damageRecords, onClose, auditorDetails }) => {
 
     try {
       // Directly use html2pdf().save() with the HTML string
-      await html2pdf().set(opt).from(fullContent).save(); // Pass the HTML string!
+      await html2pdf().set(opt).from(fullContent).save();
       setDownloadMessage('Your download should start automatically. If it is blocked, please check your browser settings.');
 
     } catch (error) {
@@ -422,7 +422,7 @@ const PrintableAudit = ({ audit, damageRecords, onClose, auditorDetails }) => {
         const link = document.createElement('a');
         link.href = base64data; // Use the data URL
         link.download = filename;
-        link.style.display: 'none'; // Hide the link
+        link.style.display = 'none'; // Hide the link
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
