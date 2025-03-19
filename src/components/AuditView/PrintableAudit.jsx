@@ -75,7 +75,7 @@ const PrintableAudit = ({ audit, damageRecords, onClose, auditorDetails }) => {
     };
 
     Object.entries(recordFields).forEach(([key, value]) => {
-      const regex = new RegExp(`{{${key}}}`, 'g'); // Corrected line: semicolon added
+      const regex = new RegExp(`{{${key}}}`, 'g');
       recordTemplate = recordTemplate.replace(regex, value);
     });
 
@@ -224,15 +224,15 @@ const PrintableAudit = ({ audit, damageRecords, onClose, auditorDetails }) => {
     
   const handleGeneratePdf = async () => {
     if (!processedContent || !audit) return;
-
+  
     setPdfLoading(true);
     setPdfError(null);
     setDownloadMessage(''); // Clear any previous message
-
+  
     const date = new Date(audit.audit_date);
     const formattedDate = `${date.getFullYear().toString().slice(-2)}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}`;
     const filename = `${formattedDate}-${audit.company_name.replace(/[^a-zA-Z0-9]/g, '')}.pdf`;
-
+  
     // Define CSS styles for pagination and page numbering
     const css = `
     @page {
@@ -282,17 +282,22 @@ const PrintableAudit = ({ audit, damageRecords, onClose, auditorDetails }) => {
     }
     `;
 
-      // Create header and footer content
-      const headerContent = `<div class="page-header">Rack Audit Report - ${audit.reference_number}</div>`;
-      const footerContent = `<div class="page-footer"></div>`;
+    // Create header and footer content
+    const headerContent = `<div class="page-header">Rack Audit Report - ${audit.reference_number}</div>`;
+    const footerContent = `<div class="page-footer"></div>`;
 
-      // Combine header, processed content, and footer
-      const fullContent = `
-        <style>${css}</style>
-        ${selectedTemplate.content.includes('cover-page') ? '' : headerContent}
-        <div class="page-content">${processedContent}</div>
-        ${footerContent}
-      `;
+    // Check if the template includes a cover page
+    const hasCoverPage = selectedTemplate.content.includes('class="cover-page"');
+    let fullContent = `<style>${css}</style>`;
+
+    if (hasCoverPage) {
+        fullContent += processedContent; // Add cover page directly
+    } else {
+        // Add default header if no cover page
+        fullContent += headerContent;
+        fullContent += `<div class="page-content">${processedContent}</div>`;
+    }
+     fullContent += footerContent; // Always add the footer
 
 
     const opt = {
