@@ -18,17 +18,24 @@ const CustomerLogin = ({ onLogin }) => {
 
     try {
       // Check if customer exists with this email
-      const { data: customer, error: customerError } = await supabase
+      const { data: customers, error: customerError } = await supabase
         .from('customers')
         .select('*')
         .eq('email', email)
-        .eq('is_active', true)
-        .single();
+        .eq('is_active', true);
 
-      if (customerError || !customer) {
+      if (customerError) {
+        console.error('Database error:', customerError);
+        setError('An error occurred while checking your account. Please try again.');
+        return;
+      }
+
+      if (!customers || customers.length === 0) {
         setError('No active customer account found with this email address.');
         return;
       }
+
+      const customer = customers[0];
 
       // Store customer info in session storage
       sessionStorage.setItem('customerPortalAuth', JSON.stringify({
