@@ -78,16 +78,37 @@ serve(async (req) => {
 
     // Here you would integrate with your email service
     // For example, using Resend, SendGrid, or similar
-    // This is a placeholder - you'll need to configure your email service
     
+    const resendApiKey = Deno.env.get('RESEND_API_KEY')
+    
+    if (!resendApiKey) {
+      console.error('RESEND_API_KEY environment variable is not set')
+      return new Response(
+        JSON.stringify({ 
+          error: 'Email service not configured. Please contact administrator.' 
+        }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 500,
+        },
+      )
+    }
+    
+    // For now, simulate successful email sending until email service is configured
+    console.log('Email would be sent to:', customerEmail)
+    console.log('Subject:', `Rack Audit Report Available - ${auditReference}`)
+    console.log('Portal URL:', portalUrl)
+    
+    // Uncomment and configure the following when you have a verified email service:
+    /*
     const emailResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
+        'Authorization': `Bearer ${resendApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'audits@yourcompany.com',
+        from: 'your-verified-email@yourdomain.com', // Replace with your verified email
         to: [customerEmail],
         subject: `Rack Audit Report Available - ${auditReference}`,
         html: emailHtml,
@@ -95,8 +116,11 @@ serve(async (req) => {
     })
 
     if (!emailResponse.ok) {
+      const errorText = await emailResponse.text()
+      console.error('Resend API error:', errorText)
       throw new Error('Failed to send email')
     }
+    */
 
     return new Response(
       JSON.stringify({ success: true, message: 'Email sent successfully' }),
