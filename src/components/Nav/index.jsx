@@ -8,6 +8,11 @@ const Nav = () => {
   const menuRef = useRef(null);
   const location = useLocation();
 
+  // Hide navigation on customer portal pages
+  if (location.pathname.startsWith('/customer-portal')) {
+    return null;
+  }
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
