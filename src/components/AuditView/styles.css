@@ -193,6 +193,10 @@
   color: white;
 }
 
+.email-report-btn {
+  background: #059669;
+  color: white;
+}
 .close-btn {
   background: #64748b;
   color: white;
@@ -222,6 +226,14 @@
     display: block;
 }
 
+.success-message {
+  background-color: #d1fae5;
+  color: #059669;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  margin-top: 0.5rem;
+  border: 1px solid #a7f3d0;
+}
 @media print {
   .no-print {
     display: none;

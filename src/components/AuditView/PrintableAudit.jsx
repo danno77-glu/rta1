@@ -20,6 +20,9 @@ const PrintableAudit = ({ audit, damageRecords, onClose, auditorDetails }) => {
   const [pdfError, setPdfError] = useState(null);
   const [wordError, setWordError] = useState(null);
   const [downloadMessage, setDownloadMessage] = useState(''); // State for download message
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [emailError, setEmailError] = useState(null);
+  const [emailSuccess, setEmailSuccess] = useState(false);
 
 
   useEffect(() => {
@@ -442,6 +445,56 @@ const PrintableAudit = ({ audit, damageRecords, onClose, auditorDetails }) => {
     }
   };
 
+  const handleEmailReport = async () => {
+    if (!audit) return;
+
+    setEmailLoading(true);
+    setEmailError(null);
+    setEmailSuccess(false);
+
+    try {
+      // Get the customer information from the audit
+      const { data: customer, error: customerError } = await supabase
+        .from('customers')
+        .select('*')
+        .eq('name', audit.site_name)
+        .eq('company', audit.company_name)
+        .single();
+
+      if (customerError || !customer) {
+        throw new Error('Customer not found. Please ensure customer information is properly set up.');
+      }
+
+      if (!customer.email) {
+        throw new Error('Customer email not found. Please update customer information.');
+      }
+
+      // Get the portal URL
+      const portalUrl = `${window.location.origin}/customer-portal`;
+
+      // Call the edge function to send email
+      const { data, error } = await supabase.functions.invoke('send-audit-email', {
+        body: {
+          customerEmail: customer.email,
+          customerName: customer.name,
+          companyName: customer.company,
+          auditReference: audit.reference_number,
+          portalUrl: portalUrl
+        }
+      });
+
+      if (error) throw error;
+
+      setEmailSuccess(true);
+      setTimeout(() => setEmailSuccess(false), 5000); // Clear success message after 5 seconds
+
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setEmailError(error.message || 'Failed to send email. Please try again.');
+    } finally {
+      setEmailLoading(false);
+    }
+  };
 
   if (loading) {
     return <div className="loading">Loading templates...</div>;
@@ -489,6 +542,17 @@ const PrintableAudit = ({ audit, damageRecords, onClose, auditorDetails }) => {
             {wordLoading ? 'Exporting...' : 'Export to Word'}
           </button>
           {wordError && <div className="error-message">{wordError}</div>}
+          
+          <button
+            onClick={handleEmailReport}
+            className="email-report-btn"
+            disabled={!processedContent || emailLoading}
+          >
+            {emailLoading ? 'Sending Email...' : 'Email Report'}
+          </button>
+          {emailError && <div className="error-message">{emailError}</div>}
+          {emailSuccess && <div className="success-message">Email sent successfully to customer!</div>}
+          
           <button onClick={onClose} className="close-btn">
             Close Preview
           </button>
