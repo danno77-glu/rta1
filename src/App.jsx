@@ -14,6 +14,7 @@ import React from 'react';
     import CustomerList from './components/CustomerList';
     import ScheduledAudits from './components/ScheduledAudits';
     import AuditorDashboard from './components/AuditorDashboard';
+    import CustomerPortal from './components/CustomerPortal';
     import './styles/global.css';
 
     const App = () => {
@@ -71,6 +72,7 @@ import React from 'react';
                       <AuditorDashboard />
                     </PrivateRoute>
                   } />
+                  <Route path="/customer-portal/*" element={<CustomerPortal />} />
                   {/* Add catch-all route for 404s */}
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

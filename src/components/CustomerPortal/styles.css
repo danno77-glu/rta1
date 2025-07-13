@@ -1,0 +1,642 @@
+/* Customer Portal Styles */
+.customer-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+}
+
+.login-container {
+  background: white;
+  border-radius: 1rem;
+  padding: 3rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-header h1 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
+
+.login-header p {
+  color: #64748b;
+  font-size: 1rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.form-group input {
+  padding: 0.875rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.login-btn {
+  padding: 1rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.login-btn:hover:not(:disabled) {
+  background: var(--secondary-color);
+  transform: translateY(-1px);
+}
+
+.login-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.login-footer p {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+/* Dashboard Styles */
+.customer-dashboard {
+  min-height: 100vh;
+  background: var(--background-color);
+  padding: 2rem;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.customer-info h1 {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: 2rem;
+}
+
+.customer-info p {
+  margin: 0.5rem 0 0;
+  color: #64748b;
+  font-size: 1.125rem;
+}
+
+.logout-btn {
+  padding: 0.75rem 1.5rem;
+  background: #64748b;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  background: #475569;
+  transform: translateY(-1px);
+}
+
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .dashboard-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.audits-section {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.audits-section h2 {
+  margin: 0 0 1.5rem;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+
+.no-audits {
+  text-align: center;
+  padding: 3rem;
+  color: #64748b;
+}
+
+.audits-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.audit-card {
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+.audit-card:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.audit-card.selected {
+  border-color: var(--primary-color);
+  background: #f0f9ff;
+}
+
+.audit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.audit-header h3 {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 1.125rem;
+}
+
+.audit-date {
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.audit-details {
+  margin-bottom: 1rem;
+}
+
+.audit-details p {
+  margin: 0.25rem 0;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.risk-summary {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.risk-count {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  min-width: 60px;
+}
+
+.risk-count .count {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.risk-count .label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+.risk-count.red {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.risk-count.amber {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.risk-count.green {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.audit-status {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+}
+
+.status-badge.sent {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-badge.quoted {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.status-badge.invoiced {
+  background: #d1fae5;
+  color: #059669;
+}
+
+/* Audit Details Section */
+.audit-details-section {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.audit-details-section h2 {
+  margin: 0 0 1.5rem;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+
+.audit-info {
+  margin-bottom: 2rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.info-item label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.info-item span {
+  color: #64748b;
+}
+
+.audit-notes {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.audit-notes label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.notes-content {
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+/* Damage Records */
+.damage-records-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.damage-records-section h3 {
+  margin: 0 0 1.5rem;
+  color: var(--primary-color);
+  font-size: 1.25rem;
+}
+
+.damage-records {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.damage-record {
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.damage-record.red {
+  background: #fef2f2;
+  border-color: #fca5a5;
+}
+
+.damage-record.amber {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.damage-record.green {
+  background: #f0fdf4;
+  border-color: #a7f3d0;
+}
+
+.damage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.damage-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.damage-title h4 {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 1.125rem;
+}
+
+.risk-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+}
+
+.risk-badge.red {
+  background: #dc2626;
+  color: white;
+}
+
+.risk-badge.amber {
+  background: #d97706;
+  color: white;
+}
+
+.risk-badge.green {
+  background: #059669;
+  color: white;
+}
+
+.reference-number {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-family: monospace;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.damage-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .damage-content {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+.damage-info p {
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.damage-photo {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.photo-thumbnail {
+  position: relative;
+  width: 200px;
+  height: 150px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #e2e8f0;
+}
+
+.damage-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.photo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.photo-overlay span {
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.photo-thumbnail:hover .photo-overlay {
+  opacity: 1;
+}
+
+.photo-thumbnail:hover .damage-image {
+  transform: scale(1.05);
+}
+
+/* Photo Modal */
+.photo-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.photo-modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  background: white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.close-modal {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #374151;
+  z-index: 1;
+}
+
+.close-modal:hover {
+  background: #f3f4f6;
+}
+
+.enlarged-photo {
+  max-width: 100%;
+  max-height: calc(90vh - 2rem);
+  display: block;
+  object-fit: contain;
+  border-radius: 0.25rem;
+}
+
+/* Error and Success Messages */
+.error-message {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #fca5a5;
+}
+
+.success-message {
+  background: #d1fae5;
+  color: #059669;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #a7f3d0;
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: var(--primary-color);
+  font-size: 1.125rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .customer-dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .login-container {
+    padding: 2rem;
+  }
+
+  .audits-section,
+  .audit-details-section {
+    padding: 1.5rem;
+  }
+
+  .risk-summary {
+    justify-content: center;
+  }
+
+  .damage-content {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-thumbnail {
+    width: 100%;
+    max-width: 300px;
+  }
+}

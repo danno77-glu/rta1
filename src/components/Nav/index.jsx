@@ -71,6 +71,16 @@ const Nav = () => {
           <li className={isActive('/settings') ? 'active' : ''}>
             <Link to="/settings">Settings</Link>
           </li>
+          <li>
+            <a 
+              href="/customer-portal" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ color: '#64748b' }}
+            >
+              Customer Portal
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
